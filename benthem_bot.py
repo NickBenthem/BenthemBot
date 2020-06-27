@@ -3,6 +3,7 @@ import datetime
 import pendulum
 import asyncio
 import sys
+
 client = discord.Client()
 brothers = ['Nick','Martin','Jake','Gerrit','Adam']
 
@@ -14,9 +15,9 @@ async def on_ready():
     print(f"Successfully Authenticated. I'm {client.user}")
 
     task = create_loop()
+    # Go ahead and create the loop at the proper time - pass in the function we want to execute at that time.
     client.loop.create_task(task)
 
-    # Go ahead and create the loop at the proper time - pass in the function we want to execute at that time.
 
 
 async def create_loop():
@@ -30,7 +31,7 @@ async def create_loop():
 
         # Create a sleep command until the time we need
         print(f"I need to wait for {seconds_to_wait} second(s)")
-        seconds_to_wait=5
+        # seconds_to_wait=5
         await asyncio.sleep(delay=seconds_to_wait)
         await reminder_message()
 
@@ -49,14 +50,6 @@ async def reminder_message():
 
     channel = client.get_channel(id=channel_id)
     await channel.send(f"It's {brother_chosen}'s turn to pick the game this week! What should we play?")
-
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
 
 
 def main(args=None):
