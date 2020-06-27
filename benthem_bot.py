@@ -19,7 +19,12 @@ async def on_ready():
     client.loop.create_task(task)
 
 
-
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+    if "your head would look good" in message.content.lower():
+        await message.channel.send('https://external-preview.redd.it/5pX-7j4nc9bqopi1QcUiW70CnrjxKL4rXTbJTFJJ4os.png?auto=webp&s=c877f5a14e3737f83e003a2c29de9b2707ebd8a5')
 async def create_loop():
     while True:
         # Figure out the current time, and how long until we want to send the message again
