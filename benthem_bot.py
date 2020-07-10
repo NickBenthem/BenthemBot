@@ -30,7 +30,7 @@ async def create_loop():
         # Figure out the current time, and how long until we want to send the message again
         current_time = datetime.datetime.now()
         # The next sunday at 9am PST / 12pm EST.
-        next_instance = pendulum.now().next(pendulum.SUNDAY).at(hour=9)
+        next_instance = pendulum.now("US/Pacific").next(pendulum.SUNDAY).at(hour=9)
 
         seconds_to_wait = next_instance.diff(pendulum.now()).as_timedelta().seconds
 
@@ -39,18 +39,19 @@ async def create_loop():
         # seconds_to_wait=5
         await asyncio.sleep(delay=seconds_to_wait)
         await reminder_message()
+        await asyncio.sleep(1) # wait a second until it restarts. 
 
 
 async def reminder_message():
     #Figure out which brother is choosing
-    choice =  (pendulum.now().week_of_year % len(brothers)) - 1 # Offset by 1 because len(n) in {0,1,...,n-1}
+    choice =  (pendulum.now("US/Pacific").week_of_year % len(brothers)) - 1 # Offset by 1 because len(n) in {0,1,...,n-1}
     # debug
     # choice = (pendulum.now().next(pendulum.SUNDAY).at(hour=9).week_of_year % len(brothers)) -1
 
     # offset to correct start (initial condition)
     choice = choice + 4
 
-    brother_chosen = brothers[choice]
+    brother_chosen = brothers[::choice]
     channel_id = [x for x in client.get_all_channels() if x.name=="general"][0].id #Grab the channel we want to send to.
 
     channel = client.get_channel(id=channel_id)
