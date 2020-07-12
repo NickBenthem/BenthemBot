@@ -28,7 +28,6 @@ async def on_message(message):
 async def create_loop():
     while True:
         # Figure out the current time, and how long until we want to send the message again
-        current_time = datetime.datetime.now()
         # The next sunday at 9am PST / 12pm EST.
         next_instance = pendulum.now("US/Pacific").next(pendulum.SUNDAY).at(hour=9)
 
@@ -51,7 +50,7 @@ async def reminder_message():
     # offset to correct start (initial condition)
     choice = choice + 4
 
-    brother_chosen = brothers[::choice]
+    brother_chosen = brothers[choice % len(brothers)]
     channel_id = [x for x in client.get_all_channels() if x.name=="general"][0].id #Grab the channel we want to send to.
 
     channel = client.get_channel(id=channel_id)
