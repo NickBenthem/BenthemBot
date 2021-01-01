@@ -25,6 +25,7 @@ async def on_message(message):
         return
     if "your head would look good" in message.content.lower():
         await message.channel.send('https://external-preview.redd.it/5pX-7j4nc9bqopi1QcUiW70CnrjxKL4rXTbJTFJJ4os.png?auto=webp&s=c877f5a14e3737f83e003a2c29de9b2707ebd8a5')
+
 async def create_loop():
     while True:
         # Figure out the current time, and how long until we want to send the message again
@@ -38,7 +39,7 @@ async def create_loop():
         # seconds_to_wait=5
         await asyncio.sleep(delay=seconds_to_wait)
         await reminder_message()
-        await asyncio.sleep(1) # wait a second until it restarts. 
+        await asyncio.sleep(5) # wait a second until it restarts.
 
 
 async def reminder_message():
