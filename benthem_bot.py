@@ -59,6 +59,7 @@ async def reminder_message():
 
 
 def main(args=None):
+    # first arg is the token.
     if args is None:
         args = sys.argv[1:]
     client.run(args[0]) # Get token and run loop.
